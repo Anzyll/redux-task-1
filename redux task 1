@@ -1,0 +1,35 @@
+import { createStore } from "redux";
+
+const BUY_PRODUCT = "buy_product";
+
+function buyProduct() {
+  return {
+    type: BUY_PRODUCT,
+    info: "first redux action",
+  };
+}
+
+const initialState = {
+  noOfProducts: 10,
+};
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case BUY_PRODUCT:
+      return {
+        ...state,
+        noOfProducts: state.noOfProducts - 1,
+      };
+    default:
+      return state;
+  }
+};
+
+const store = createStore(reducer);
+console.log("intial state", store.getState());
+const unsubscribe = store.subscribe(() =>
+  console.log("updated state", store.getState())
+);
+store.dispatch(buyProduct());
+store.dispatch(buyProduct());
+store.dispatch(buyProduct());
+unsubscribe();
