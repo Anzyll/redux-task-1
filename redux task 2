@@ -1,0 +1,62 @@
+import { createStore, combineReducers } from "redux";
+const BUYCAKE = "buyCake";
+const BUYICECREAM = "buyicecream";
+
+function buyCake() {
+  return {
+    type: BUYCAKE,
+    info: "buy cake",
+  };
+}
+
+function buyIceCream() {
+  return {
+    type: BUYICECREAM,
+    info: "buy icecream",
+  };
+}
+
+const initialCakeValue = {
+  cakecount: 10,
+};
+const initialIceCreamValue = {
+  iceCreamcount: 20,
+};
+
+const cakeReducer = (state = initialCakeValue, action) => {
+  switch (action.type) {
+    case BUYCAKE:
+      return {
+        ...state,
+        cakecount: state.cakecount - 1,
+      };
+    default:
+      return state;
+  }
+};
+const iceCreamReducer = (state = initialIceCreamValue, action) => {
+  switch (action.type) {
+    case BUYICECREAM:
+      return {
+        ...state,
+        iceCreamcount: state.iceCreamcount - 1,
+      };
+    default:
+      return state;
+  }
+};
+const rootReducer = combineReducers({
+  cake: cakeReducer,
+  iceCream: iceCreamReducer,
+});
+const store = createStore(rootReducer);
+console.log("initial value ", store.getState());
+const unsubscribe = store.subscribe(() =>
+  console.log("updated state", store.getState())
+);
+store.dispatch(buyCake());
+store.dispatch(buyCake());
+store.dispatch(buyCake());
+store.dispatch(buyIceCream());
+store.dispatch(buyIceCream());
+unsubscribe();
